@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fale Conosco</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="card" id="contactForm">
+      <div class="header">
+        <div class="title">Fale conosco</div>
+        <div class="subtitle">Preencha abaixo e entraremos em contato.</div>
+      </div>
+
+      <div>
+        <label for="nome">Nome</label>
+        <input
+          id="nome"
+          name="nome"
+          type="text"
+          placeholder="Seu nome"
+          required
+          maxlength="80"
+        />
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="seunome@exemplo.com"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="assunto">Assunto</label>
+        <div class="row">
+          <input
+            id="assunto"
+            name="assunto"
+            type="text"
+            placeholder="assunto"
+            required
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="mensagem">mensagem</label>
+        <textarea
+          id="mensagem"
+          name="mensagem"
+          rows="3"
+          placeholder="Como podemos ajudar?"
+          maxlength="600"
+        ></textarea>
+      </div>
+    </form>
+    <div class="actions">
+      <button type="button" id="btn-enviar" class="btn btn-enviar">
+        Enviar
+      </button>
+    </div>
+    <div
+      id="resultado"
+      style="margin-top: 15px; text-align: center; font-weight: bold"
+    ></div>
+
+    <script>
+     
+      //Criar um evento para quando clicar no botão
+      document
+        .getElementById("btn-enviar")
+        .addEventListener("click", async () => {
+          // primeira etapa - pegar as informações dos inputs
+          const nome = document.getElementById("nome").value;
+          const email = document.getElementById("email").value;
+          const assunto = document.getElementById("assunto").value;
+          const mensagem = document.getElementById("mensagem").value;
+
+          // segunda etapa - fazer a requisição para o back-end
+          const resposta = await fetch(`http://localhost:3000/mensagem`, {
+            method: "POST",
+
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              nome: nome,
+              email: email,
+              assunto: assunto,
+              mensagem: mensagem,
+            }),
+          });
+
+          // terceira etapa - pegar a resposta do back-end
+          if (resposta.ok == true) {
+            const dados = await resposta.json();
+            document.getElementById("resultado").innerText = dados.resposta;
+          } else {
+          }
+        });
+    </script>
+  </body>
+</html>
