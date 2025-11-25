@@ -20,6 +20,20 @@ DROP DATABASE IF EXISTS `banco_projeto`;
 CREATE DATABASE IF NOT EXISTS `banco_projeto` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `banco_projeto`;
 
+-- Copiando estrutura para tabela banco_projeto.login
+DROP TABLE IF EXISTS `login`;
+CREATE TABLE IF NOT EXISTS `login` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL,
+  `senha` varchar(256) NOT NULL DEFAULT '0',
+  `telefone` int(11) NOT NULL,
+  `cpf` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela banco_projeto.login: ~0 rows (aproximadamente)
+DELETE FROM `login`;
+
 -- Copiando estrutura para tabela banco_projeto.visitantes
 DROP TABLE IF EXISTS `visitantes`;
 CREATE TABLE IF NOT EXISTS `visitantes` (

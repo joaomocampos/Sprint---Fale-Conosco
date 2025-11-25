@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Fale Conosco</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <form class="card" id="contactForm" onsubmit="handleSubmit(event)">
+      <div class="header">
+        <div class="title">Fale conosco</div>
+        <div class="subtitle">Preencha abaixo e entraremos em contato.</div>
+      </div>
+
+      <div>
+        <label for="name">Nome</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Seu nome"
+          required
+          maxlength="80"
+        />
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="seunome@exemplo.com"
+          required
+        />
+      </div>
+
+      <div>
+        <label for="Telefone">Telefone</label>
+        <div class="row">
+          <input
+            id="telefone"
+            name="telefone"
+            type="telefone"
+            placeholder="Telefone "
+            required
+          />
+
+          <button
+            type="button"
+            class="pw-toggle"
+            onclick="togglePassword()"
+            aria-label="Mostrar senha"
+          >
+            👁️
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <label for="message">Assunto</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="3"
+          placeholder="Como podemos ajudar?"
+          maxlength="500"
+        ></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" onclick="resetForm()">
+          Limpar
+        </button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
+      </div>
+    </form>
+
+    <script>
+      function togglePassword() {
+        const pw = document.getElementById("password");
+        if (!pw) return;
+        pw.type = pw.type === "password" ? "text" : "password";
+      }
+
+      function resetForm() {
+        document.getElementById("contactForm").reset();
+      }
+
+      function handleSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          password: form.password.value,
+          message: form.message.value.trim(),
+        };
+
+        if (data.password.length < 6) {
+          alert("A senha precisa ter pelo menos 6 caracteres.");
+          return;
+        }
+
+        alert(
+          "Formulário pronto para envio (dados simulados):\n\n" +
+            JSON.stringify(data, null, 2)
+        );
+        form.reset();
+      }
+      //Criar um evento para quando clicar no botão
+      document
+        .getElementById("btn_cadastro")
+        .addEventListener("click", async () => {
+          // primeira etapa - pegar as informações dos inputs
+          const nome_completo = document.getElementById("nome_completo").value;
+          const email = document.getElementById("email").value;
+          const senha = document.getElementById("senha").value;
+
+          // segunda etapa - fazer a requisição para o back-end
+          const resposta = await fetch(
+            `http://localhost:3000/cadastrarcliente`,
+            {
+              method: "POST",
+
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                nome_completo: nome_completo,
+                email: email,
+                senha: senha,
+                caminho_foto: "",
+              }),
+            }
+          );
+
+          // terceira etapa - pegar a resposta do back-end
+          if (resposta.ok == true) {
+            const dados = await resposta.json();
+            document.getElementById("resultado").innerText = dados.resposta;
+          } else {
+          }
+        });
+    </script>
+  </body>
+</html>

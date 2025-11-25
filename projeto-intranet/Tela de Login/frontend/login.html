@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tela de Login</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="card" role="main" aria-labelledby="login-title">
+      <div class="container">
+        <div class="logo" aria-hidden="true">LM</div>
+        <div>
+          <h1 id="login-title">Entrar na sua conta</h1>
+          <p class="lead">
+            Acesse com seu e-mail ou recupere a senha se necessário.
+          </p>
+        </div>
+      </div>
+      <label for="email">
+        EMAIL
+        <input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="seu@exemplo.com"
+          required
+          autocomplete="email"
+        />
+      </label>
+
+      <label for="senha">
+        SENHA
+        <input
+          id="senha"
+          name="password"
+          type="password"
+          placeholder="••••••••"
+          required
+          autocomplete="current-password"
+          minlength="6"
+        />
+      </label>
+
+      <div class="row">
+        <label for="phone">
+          TELEFONE
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            placeholder="+55 (11) 9XXXX-XXXX"
+            pattern="[\d\+\s\-\(\)]{8,25}"
+            autocomplete="tel"
+          />
+        </label>
+
+        <label for="cpf">
+          CPF
+          <input
+            id="cpf"
+            name="cpf"
+            type="text"
+            placeholder="000.000.000-00"
+            inputmode="numeric"
+            pattern="(\d{3}\.\d{3}\.\d{3}\-\d{2})|(\d{11})"
+            autocomplete="off"
+          />
+        </label>
+      </div>
+
+      <div class="actions">
+        <button class="btn" type="button" onclick="registrarUsuario()">
+          Registrar
+        </button>
+      </div>
+      <script>
+        async function registrarUsuario() {
+          const email = document.getElementById("email").value;
+          const senha = document.getElementById("senha").value; // corrigido
+          const telefone = document.getElementById("phone").value;
+          const cpf = document.getElementById("cpf").value;
+
+          const resp = await fetch("http://localhost:3000/registrar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, senha, telefone, cpf }),
+          });
+
+          const data = await resp.json();
+          alert(data.message || data.error);
+        }
+      </script>
+    </main>
+  </body>
+</html>
